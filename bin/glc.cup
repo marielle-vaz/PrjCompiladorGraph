@@ -103,4 +103,8 @@ Impressao ::= print adjacency
     {: 
         deveImprimir = true; 
     :}
-  | ;
+  | error 
+    {: 
+        parser.defineError("Elemento mal formado na chamada do 'print adjacency'");
+    :}
+  ;
