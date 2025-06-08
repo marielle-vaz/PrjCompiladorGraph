@@ -5,28 +5,39 @@ import java.io.IOException;
 import java.util.*;
 
 public class Graph {
-    
-    public static void addVertex(String vertex, Map<String, Set<String>> adjList) {
+
+    private final boolean isDirected;
+    private final Map<String, Set<String>> adjList;
+
+    public Graph(boolean isDirected) {
+        this.isDirected = isDirected;
+        this.adjList = new HashMap<>();
+    }
+
+    public void addVertex(String vertex) {
         adjList.putIfAbsent(vertex, new HashSet<>());
     }
 
-    public static void addEdge(String v1, String v2, Map<String, Set<String>> adjList) {
-        addVertex(v1, adjList);
-        addVertex(v2, adjList);
+    public void addEdge(String v1, String v2) {
+        addVertex(v1);
+        addVertex(v2);
         adjList.get(v1).add(v2);
-        adjList.get(v2).add(v1);
+
+        if (!isDirected) {
+            adjList.get(v2).add(v1);
+        }
     }
 
-    public boolean hasVertex(String vertex, Map<String, Set<String>> adjList) {
+    public boolean hasVertex(String vertex) {
         return adjList.containsKey(vertex);
     }
 
-    public boolean hasEdge(String v1, String v2, Map<String, Set<String>> adjList) {
-        return hasVertex(v1, adjList) && adjList.get(v1).contains(v2);
+    public boolean hasEdge(String from, String to) {
+        return hasVertex(from) && adjList.get(from).contains(to);
     }
 
-    public void saveAdjacencyMatrixToFile(Map<String, Set<String>> adjList) {
-        String filename = "matrizGraph.txt";
+    public void saveAdjacencyMatrixToFile() {
+        String filename = isDirected ? "matrizDigraph.txt" : "matrizGraph.txt";
 
         List<String> vertices = new ArrayList<>(adjList.keySet());
         Collections.sort(vertices);
@@ -51,5 +62,13 @@ public class Graph {
         } catch (IOException e) {
             System.err.println("Erro ao salvar o arquivo: " + e.getMessage());
         }
+    }
+
+    public Map<String, Set<String>> getAdjList() {
+        return adjList;
+    }
+
+    public boolean isDirected() {
+        return isDirected;
     }
 }

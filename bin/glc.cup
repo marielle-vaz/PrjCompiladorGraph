@@ -1,45 +1,74 @@
 import java_cup.runtime.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import classes_graph.Digraph;
 import classes_graph.Graph;
 
 parser code {:
-    public Map<String, Set<String>> grafo = new HashMap<>();
-    public Map<String, Set<String>> digrafo = new HashMap<>();
-    String type;
+    public Graph grafo;
     public boolean deveImprimir = false;
+
+    public void syntax_error(Symbol s){
+        this.defineError(s.left, s.right);
+    }
+
+    public void defineError(int line, int column, String text) {
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(line, column, text);
+    }
+
+    public void defineError(int linha, int coluna){
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(linha, coluna);
+    }
+
+    public void defineError(String text) {
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(text);
+    }
 :};
 
 terminal GRAPH, colon, line, arrow, directed, undirected, print, vertex, edge; 
 terminal String ID, adjacency;
-non terminal S, T, V1List, V1Element, V2List, V2Element, F;
+non terminal S, G, VList, VElement, F;
 start with S;
 
-S ::= GRAPH colon T F;
+S ::= GRAPH colon G VList F;
 
-T ::= directed V1List {: type = "digrafo"; :}
-    | undirected V2List {: type = "grafo"; :}
-    ;
+G ::= directed {: grafo = new Graph(true); :}
+   | undirected {: grafo = new Graph(false); :}
+   | error {: parser.defineError("Sintaxe inválida! O tipo deve ser directed ou undirected"); :}
+   ;
 
-V1List ::= V1List V1Element
-         | V1Element;
+VList ::= VList VElement
+        | VElement;
 
-V1Element ::= vertex ID:id 
-    {: Digraph.addVertex(id, digrafo); :}
-    | edge ID:origem arrow ID:destino
-    {: Digraph.addEdge(origem, destino, digrafo); :}
-    ;
+VElement ::= vertex ID:id 
+    {: grafo.addVertex(id); :}
+  | edge ID:origem arrow ID:destino 
+    {: 
+        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " -> " + destino);
+            System.exit(1);
+        }
+        if (grafo.hasEdge(origem, destino)) {
+            System.err.println("Erro: aresta duplicada: " + origem + " -> " + destino);
+            System.exit(1);
+        }
+        grafo.addEdge(origem, destino); 
+    :}
+  | edge ID:origem line ID:destino 
+    {: 
+        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " - " + destino);
+            System.exit(1);
+        }
+        if (grafo.hasEdge(origem, destino)) {
+            System.err.println("Erro: aresta duplicada: " + origem + " - " + destino);
+            System.exit(1);
+        }
+        grafo.addEdge(origem, destino); 
+    :}
+  ;
 
-V2List ::= V2List V2Element  
-         | V2Element;
 
-V2Element ::= vertex ID:id 
-    {: Graph.addVertex(id, grafo); :}
-    | edge ID:origem line ID:destino
-    {: Graph.addEdge(origem, destino, grafo); :}
-    ;
-
-F ::= print adjacency {: deveImprimir = true; :}
-     | ;
+F ::= print adjacency 
+    {: deveImprimir = true; :}
+  | ;

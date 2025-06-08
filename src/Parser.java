@@ -4,10 +4,6 @@
 //----------------------------------------------------
 
 import java_cup.runtime.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import classes_graph.Digraph;
 import classes_graph.Graph;
 import java_cup.runtime.XMLElement;
 
@@ -34,11 +30,10 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\016\000\002\002\004\000\002\002\006\000\002\003" +
-    "\004\000\002\003\004\000\002\004\004\000\002\004\003" +
-    "\000\002\005\004\000\002\005\006\000\002\006\004\000" +
-    "\002\006\003\000\002\007\004\000\002\007\006\000\002" +
-    "\010\004\000\002\010\002" });
+    "\000\014\000\002\002\004\000\002\002\007\000\002\003" +
+    "\003\000\002\003\003\000\002\003\003\000\002\004\004" +
+    "\000\002\004\003\000\002\005\004\000\002\005\006\000" +
+    "\002\005\006\000\002\006\004\000\002\006\002" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -46,25 +41,21 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\004\004\005\001\002\000\004\002\037\001" +
-    "\002\000\004\005\006\001\002\000\006\010\011\011\007" +
-    "\001\002\000\006\013\031\014\030\001\002\000\006\002" +
-    "\ufff4\012\023\001\002\000\006\013\015\014\014\001\002" +
-    "\000\012\002\ufffc\012\ufffc\013\ufffc\014\ufffc\001\002\000" +
-    "\012\002\uffff\012\uffff\013\015\014\014\001\002\000\004" +
-    "\015\017\001\002\000\004\015\016\001\002\000\012\002" +
-    "\ufffb\012\ufffb\013\ufffb\014\ufffb\001\002\000\004\007\020" +
-    "\001\002\000\004\015\021\001\002\000\012\002\ufffa\012" +
-    "\ufffa\013\ufffa\014\ufffa\001\002\000\012\002\ufffd\012\ufffd" +
-    "\013\ufffd\014\ufffd\001\002\000\004\016\025\001\002\000" +
-    "\004\002\000\001\002\000\004\002\ufff5\001\002\000\012" +
-    "\002\ufffe\012\ufffe\013\031\014\030\001\002\000\012\002" +
-    "\ufff8\012\ufff8\013\ufff8\014\ufff8\001\002\000\004\015\033" +
-    "\001\002\000\004\015\032\001\002\000\012\002\ufff7\012" +
-    "\ufff7\013\ufff7\014\ufff7\001\002\000\004\006\034\001\002" +
-    "\000\004\015\035\001\002\000\012\002\ufff6\012\ufff6\013" +
-    "\ufff6\014\ufff6\001\002\000\012\002\ufff9\012\ufff9\013\ufff9" +
-    "\014\ufff9\001\002\000\004\002\001\001\002" });
+    "\000\027\000\004\004\005\001\002\000\004\002\031\001" +
+    "\002\000\004\005\006\001\002\000\010\003\010\010\012" +
+    "\011\007\001\002\000\006\013\ufffe\014\ufffe\001\002\000" +
+    "\006\013\ufffd\014\ufffd\001\002\000\006\013\016\014\015" +
+    "\001\002\000\006\013\uffff\014\uffff\001\002\000\012\002" +
+    "\ufffb\012\ufffb\013\ufffb\014\ufffb\001\002\000\012\002\ufff6" +
+    "\012\026\013\016\014\015\001\002\000\004\015\020\001" +
+    "\002\000\004\015\017\001\002\000\012\002\ufffa\012\ufffa" +
+    "\013\ufffa\014\ufffa\001\002\000\006\006\021\007\022\001" +
+    "\002\000\004\015\024\001\002\000\004\015\023\001\002" +
+    "\000\012\002\ufff9\012\ufff9\013\ufff9\014\ufff9\001\002\000" +
+    "\012\002\ufff8\012\ufff8\013\ufff8\014\ufff8\001\002\000\012" +
+    "\002\ufffc\012\ufffc\013\ufffc\014\ufffc\001\002\000\004\016" +
+    "\030\001\002\000\004\002\000\001\002\000\004\002\ufff7" +
+    "\001\002\000\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -72,17 +63,15 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\004\002\003\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\003\007\001\001\000\006\006\025" +
-    "\007\026\001\001\000\004\010\023\001\001\000\006\004" +
-    "\012\005\011\001\001\000\002\001\001\000\004\005\021" +
+    "\000\027\000\004\002\003\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\003\010\001\001\000\002\001\001" +
+    "\000\002\001\001\000\006\004\013\005\012\001\001\000" +
+    "\002\001\001\000\002\001\001\000\006\005\024\006\026" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\004\007\035\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001" });
+    "\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -121,10 +110,27 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-    public Map<String, Set<String>> grafo = new HashMap<>();
-    public Map<String, Set<String>> digrafo = new HashMap<>();
-    String type;
+    public Graph grafo;
     public boolean deveImprimir = false;
+
+    public void syntax_error(Symbol s){
+        this.defineError(s.left, s.right);
+    }
+
+    public void defineError(int line, int column, String text) {
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(line, column, text);
+    }
+
+    public void defineError(int linha, int coluna){
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(linha, coluna);
+    }
+
+    public void defineError(String text) {
+        Yylex scanner = (Yylex) this.getScanner();
+        scanner.defineError(text);
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -166,64 +172,73 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // S ::= GRAPH colon T F 
+          case 1: // S ::= GRAPH colon G VList F 
             {
               Object RESULT =null;
 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // T ::= directed V1List 
+          case 2: // G ::= directed 
             {
               Object RESULT =null;
-		 type = "digrafo"; 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 grafo = new Graph(true); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("G",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // T ::= undirected V2List 
+          case 3: // G ::= undirected 
             {
               Object RESULT =null;
-		 type = "grafo"; 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 grafo = new Graph(false); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("G",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // V1List ::= V1List V1Element 
+          case 4: // G ::= error 
             {
               Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V1List",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 parser.defineError("Sintaxe inválida! O tipo deve ser directed ou undirected"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("G",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // V1List ::= V1Element 
+          case 5: // VList ::= VList VElement 
             {
               Object RESULT =null;
 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V1List",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("VList",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // V1Element ::= vertex ID 
+          case 6: // VList ::= VElement 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("VList",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // VElement ::= vertex ID 
             {
               Object RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 Digraph.addVertex(id, digrafo); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V1Element",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 grafo.addVertex(id); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("VElement",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // V1Element ::= edge ID arrow ID 
+          case 8: // VElement ::= edge ID arrow ID 
             {
               Object RESULT =null;
 		int origemleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -232,43 +247,23 @@ class CUP$Parser$actions {
 		int destinoleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int destinoright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String destino = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 Digraph.addEdge(origem, destino, digrafo); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V1Element",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 
+        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " -> " + destino);
+            System.exit(1);
+        }
+        if (grafo.hasEdge(origem, destino)) {
+            System.err.println("Erro: aresta duplicada: " + origem + " -> " + destino);
+            System.exit(1);
+        }
+        grafo.addEdge(origem, destino); 
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("VElement",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // V2List ::= V2List V2Element 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V2List",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // V2List ::= V2Element 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V2List",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // V2Element ::= vertex ID 
-            {
-              Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 Graph.addVertex(id, grafo); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V2Element",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // V2Element ::= edge ID line ID 
+          case 9: // VElement ::= edge ID line ID 
             {
               Object RESULT =null;
 		int origemleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
@@ -277,26 +272,36 @@ class CUP$Parser$actions {
 		int destinoleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int destinoright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String destino = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		 Graph.addEdge(origem, destino, grafo); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("V2Element",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		 
+        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " - " + destino);
+            System.exit(1);
+        }
+        if (grafo.hasEdge(origem, destino)) {
+            System.err.println("Erro: aresta duplicada: " + origem + " - " + destino);
+            System.exit(1);
+        }
+        grafo.addEdge(origem, destino); 
+    
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("VElement",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // F ::= print adjacency 
+          case 10: // F ::= print adjacency 
             {
               Object RESULT =null;
 		 deveImprimir = true; 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // F ::= 
+          case 11: // F ::= 
             {
               Object RESULT =null;
 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
