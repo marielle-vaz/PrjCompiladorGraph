@@ -1,5 +1,6 @@
 package except;
 
+import java.io.BufferedWriter;
 import java.util.List;
 
 public class ListError {
@@ -26,17 +27,15 @@ public class ListError {
         }
     }
 
-    private void writeToLogFile(int line, int column, String text) {
-        try (java.io.FileWriter writer = new java.io.FileWriter("erros.log", true)) {
-            writer.write("Erro" + (line > 0 ? " na linha " + line + ", coluna " + column : "") + ": " + text + "\n");
-        } catch (java.io.IOException e) {
-            System.err.println("Erro ao escrever no arquivo de log: " + e.getMessage());
-        }
-    }
 
     public void logErrors() {
-        for(Error e : this.errors) { 
-            e.print();
+        try (BufferedWriter writer = new BufferedWriter(new java.io.FileWriter("src/except/errors.log"))) {
+            for (Error e : this.errors) {
+                writer.write(e.format());
+                writer.newLine();
+            }
+        } catch (java.io.IOException ex) {
+            System.err.println("Erro ao escrever no arquivo de log: " + ex.getMessage());
         }
     }
     

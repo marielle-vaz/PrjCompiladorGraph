@@ -28,13 +28,19 @@ parser code {:
 
 terminal GRAPH, colon, line, arrow, directed, undirected, print, vertex, edge;
 terminal String ID, adjacency;
-non terminal S, G, VList, VElement, F;
 
-start with S;
+non terminal Inicio, TipoGrafo, ListaElementos, Elemento, Impressao;
 
-S ::= GRAPH colon G VList F ;
+start with Inicio;
 
-G ::= directed 
+Inicio ::= GRAPH colon TipoGrafo ListaElementos Impressao 
+| error 
+    {: 
+        parser.defineError("Comando inicial inválido. Esperado: GRAPH:");
+    :}
+  ;
+
+TipoGrafo ::= directed 
     {: 
         grafo = new Graph(true); 
         tipoDefinido = true;
@@ -50,15 +56,15 @@ G ::= directed
     :}
   ;
 
-VList ::= VList VElement
-        | VElement ;
+ListaElementos ::= ListaElementos Elemento
+                 | Elemento ;
 
-VElement ::= vertex ID:id 
+Elemento ::= vertex ID:id 
     {: 
         if (!tipoDefinido || grafo == null) {
-            parser.defineError("Tipo de grafo não definido antes da declaração de vértices.");
+            parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
         } else if (grafo.hasVertex(id)) {
-            parser.defineError("Vértice duplicado: " + id);
+            parser.defineError(idleft, idright, "Vértice duplicado: " + id);
         } else {
             grafo.addVertex(id);
         }
@@ -68,9 +74,9 @@ VElement ::= vertex ID:id
         if (!tipoDefinido || grafo == null) {
             parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
         } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            parser.defineError("Vértice inexistente usado na aresta: " + origem + " -> " + destino);
+            parser.defineError(origemleft, destinoright, "Vértice inexistente usado na aresta: " + origem + " -> " + destino);
         } else if (grafo.hasEdge(origem, destino)) {
-            parser.defineError("Aresta duplicada: " + origem + " -> " + destino);
+            parser.defineError(origemleft, destinoright, "Aresta duplicada: " + origem + " -> " + destino);
         } else {
             grafo.addEdge(origem, destino);
         }
@@ -80,9 +86,9 @@ VElement ::= vertex ID:id
         if (!tipoDefinido || grafo == null) {
             parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
         } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            parser.defineError("Vértice inexistente usado na aresta: " + origem + " -- " + destino);
+            parser.defineError(origemleft, destinoright, "Vértice inexistente usado na aresta: " + origem + " -- " + destino);
         } else if (grafo.hasEdge(origem, destino)) {
-            parser.defineError("Aresta duplicada: " + origem + " -- " + destino);
+            parser.defineError(origemleft, destinoright, "Aresta duplicada: " + origem + " -- " + destino);
         } else {
             grafo.addEdge(origem, destino);
         }
@@ -93,7 +99,7 @@ VElement ::= vertex ID:id
     :}
   ;
 
-F ::= print adjacency 
+Impressao ::= print adjacency 
     {: 
         deveImprimir = true; 
     :}

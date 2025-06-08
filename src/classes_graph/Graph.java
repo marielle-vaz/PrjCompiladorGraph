@@ -33,8 +33,15 @@ public class Graph {
     }
 
     public boolean hasEdge(String from, String to) {
-        return hasVertex(from) && adjList.get(from).contains(to);
+        if (!hasVertex(from) || !hasVertex(to)) return false;
+
+        if (isDirected) {
+            return adjList.get(from).contains(to);
+        } else {
+            return adjList.get(from).contains(to) || adjList.get(to).contains(from);
+        }
     }
+
 
     public void saveAdjacencyMatrixToFile() {
         String filename = isDirected ? "matrizDigraph.txt" : "matrizGraph.txt";
@@ -42,7 +49,7 @@ public class Graph {
         List<String> vertices = new ArrayList<>(adjList.keySet());
         Collections.sort(vertices);
 
-        try (FileWriter writer = new FileWriter(filename)) {
+        try (FileWriter writer = new FileWriter("src/matriz/" + filename)) {
             writer.write("  ");
             for (String v : vertices) {
                 writer.write(v + " ");
