@@ -1,4 +1,4 @@
-package br.edu.ifgoiano.Run;
+package br.edu.ifgoiano.run;
 
 import java.nio.file.Paths;
 
