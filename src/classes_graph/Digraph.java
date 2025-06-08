@@ -1,4 +1,4 @@
-package br.edu.ifgoiano.classes_graph;
+package classes_graph;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,11 +6,11 @@ import java.util.*;
 
 public class Digraph {
 
-    public void addVertex(String vertex, Map<String, Set<String>> adjList) {
+    public static void addVertex(String vertex, Map<String, Set<String>> adjList) {
         adjList.putIfAbsent(vertex, new HashSet<>());
     }
 
-    public void addEdge(String from, String to, Map<String, Set<String>> adjList) {
+    public static void addEdge(String from, String to, Map<String, Set<String>> adjList) {
         addVertex(from, adjList);
         addVertex(to, adjList);
         adjList.get(from).add(to); // Only one direction

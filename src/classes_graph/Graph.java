@@ -1,4 +1,4 @@
-package br.edu.ifgoiano.classes_graph;
+package classes_graph;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,11 +6,11 @@ import java.util.*;
 
 public class Graph {
     
-    public void addVertex(String vertex, Map<String, Set<String>> adjList) {
+    public static void addVertex(String vertex, Map<String, Set<String>> adjList) {
         adjList.putIfAbsent(vertex, new HashSet<>());
     }
 
-    public void addEdge(String v1, String v2, Map<String, Set<String>> adjList) {
+    public static void addEdge(String v1, String v2, Map<String, Set<String>> adjList) {
         addVertex(v1, adjList);
         addVertex(v2, adjList);
         adjList.get(v1).add(v2);

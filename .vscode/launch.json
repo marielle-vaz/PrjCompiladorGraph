@@ -8,6 +8,27 @@
             "type": "java",
             "name": "App",
             "request": "launch",
+            "mainClass": "App",
+            "projectName": "PrjCompiladorGraph_9d6aeb3f"
+        },
+        {
+            "type": "java",
+            "name": "RunScanner",
+            "request": "launch",
+            "mainClass": "run.RunScanner",
+            "projectName": "PrjCompiladorGraph_9d6aeb3f"
+        },
+        {
+            "type": "java",
+            "name": "RunParser",
+            "request": "launch",
+            "mainClass": "run.RunParser",
+            "projectName": "PrjCompiladorGraph_9d6aeb3f"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
             "mainClass": "br.edu.ifgoiano.App",
             "projectName": "PrjCompiladorGraph_9d6aeb3f"
         },

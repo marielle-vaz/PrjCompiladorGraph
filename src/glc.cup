@@ -2,8 +2,8 @@ import java_cup.runtime.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import Classes.Digrafo;
-import Classes.Grafo;
+import classes_graph.Digraph;
+import classes_graph.Graph;
 
 parser code {:
     public Map<String, Set<String>> grafo = new HashMap<>();
@@ -27,18 +27,18 @@ V1List ::= V1List V1Element
          | V1Element;
 
 V1Element ::= vertex ID:id 
-    {: Digrafo.adicionarVertice(id, digrafo); :}
+    {: Digraph.addVertex(id, digrafo); :}
     | edge ID:origem arrow ID:destino
-    {: Digrafo.adicionarAresta(origem, destino, digrafo); :}
+    {: Digraph.addEdge(origem, destino, digrafo); :}
     ;
 
 V2List ::= V2List V2Element  
          | V2Element;
 
 V2Element ::= vertex ID:id 
-    {: Grafo.adicionarVertice(id, grafo); :}
+    {: Graph.addVertex(id, grafo); :}
     | edge ID:origem line ID:destino
-    {: Grafo.adicionarAresta(origem, destino, grafo); :}
+    {: Graph.addEdge(origem, destino, grafo); :}
     ;
 
 F ::= print adjacency {: deveImprimir = true; :}
