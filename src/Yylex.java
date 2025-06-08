@@ -316,14 +316,6 @@ class Yylex implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-    public Symbol newSymbol(int token, Object value) { 
-        return new Symbol(token, yyline, yycolumn, value); 
-    } 
- 
-    public Symbol newSymbol(int token) { 
-        return this.newSymbol(token, null); 
-    }
-
     private ListError listError;
 
     public Yylex(java.io.FileReader in, ListError listError) {
@@ -353,6 +345,14 @@ class Yylex implements java_cup.runtime.Scanner {
 
     public Symbol createSymbol(int token) {
         return this.createSymbol(token, null);
+    }
+
+    public Symbol newSymbol(int token, Object value) { 
+        return new Symbol(token, yyline, yycolumn, value); 
+    } 
+ 
+    public Symbol newSymbol(int token) { 
+        return this.newSymbol(token, null); 
     }
 
 

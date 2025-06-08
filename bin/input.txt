@@ -1,5 +1,5 @@
 GRAPH:
-    directed
+    direct
     vertex A
     vertex B
     vertex C

@@ -9,14 +9,6 @@ import except.ListError;
 %column
 
 %{
-    public Symbol newSymbol(int token, Object value) { 
-        return new Symbol(token, yyline, yycolumn, value); 
-    } 
- 
-    public Symbol newSymbol(int token) { 
-        return this.newSymbol(token, null); 
-    }
-
     private ListError listError;
 
     public Yylex(java.io.FileReader in, ListError listError) {
@@ -46,6 +38,14 @@ import except.ListError;
 
     public Symbol createSymbol(int token) {
         return this.createSymbol(token, null);
+    }
+
+    public Symbol newSymbol(int token, Object value) { 
+        return new Symbol(token, yyline, yycolumn, value); 
+    } 
+ 
+    public Symbol newSymbol(int token) { 
+        return this.newSymbol(token, null); 
     }
 %}
 

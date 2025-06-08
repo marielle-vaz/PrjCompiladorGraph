@@ -4,6 +4,7 @@ import classes_graph.Graph;
 parser code {:
     public Graph grafo;
     public boolean deveImprimir = false;
+    private boolean tipoDefinido = false;
 
     public void syntax_error(Symbol s){
         this.defineError(s.left, s.right);
@@ -25,50 +26,75 @@ parser code {:
     }
 :};
 
-terminal GRAPH, colon, line, arrow, directed, undirected, print, vertex, edge; 
+terminal GRAPH, colon, line, arrow, directed, undirected, print, vertex, edge;
 terminal String ID, adjacency;
 non terminal S, G, VList, VElement, F;
+
 start with S;
 
-S ::= GRAPH colon G VList F;
+S ::= GRAPH colon G VList F ;
 
-G ::= directed {: grafo = new Graph(true); :}
-   | undirected {: grafo = new Graph(false); :}
-   | error {: parser.defineError("Sintaxe inválida! O tipo deve ser directed ou undirected"); :}
-   ;
-
-VList ::= VList VElement
-        | VElement;
-
-VElement ::= vertex ID:id 
-    {: grafo.addVertex(id); :}
-  | edge ID:origem arrow ID:destino 
+G ::= directed 
     {: 
-        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " -> " + destino);
-            System.exit(1);
-        }
-        if (grafo.hasEdge(origem, destino)) {
-            System.err.println("Erro: aresta duplicada: " + origem + " -> " + destino);
-            System.exit(1);
-        }
-        grafo.addEdge(origem, destino); 
+        grafo = new Graph(true); 
+        tipoDefinido = true;
     :}
-  | edge ID:origem line ID:destino 
+  | undirected 
     {: 
-        if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            System.err.println("Erro: vértice inexistente usado na aresta: " + origem + " - " + destino);
-            System.exit(1);
-        }
-        if (grafo.hasEdge(origem, destino)) {
-            System.err.println("Erro: aresta duplicada: " + origem + " - " + destino);
-            System.exit(1);
-        }
-        grafo.addEdge(origem, destino); 
+        grafo = new Graph(false); 
+        tipoDefinido = true;
+    :}
+  | error 
+    {: 
+        parser.defineError("Sintaxe inválida! O tipo deve ser directed ou undirected.");
     :}
   ;
 
+VList ::= VList VElement
+        | VElement ;
+
+VElement ::= vertex ID:id 
+    {: 
+        if (!tipoDefinido || grafo == null) {
+            parser.defineError("Tipo de grafo não definido antes da declaração de vértices.");
+        } else if (grafo.hasVertex(id)) {
+            parser.defineError("Vértice duplicado: " + id);
+        } else {
+            grafo.addVertex(id);
+        }
+    :}
+  | edge ID:origem arrow ID:destino 
+    {: 
+        if (!tipoDefinido || grafo == null) {
+            parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
+        } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            parser.defineError("Vértice inexistente usado na aresta: " + origem + " -> " + destino);
+        } else if (grafo.hasEdge(origem, destino)) {
+            parser.defineError("Aresta duplicada: " + origem + " -> " + destino);
+        } else {
+            grafo.addEdge(origem, destino);
+        }
+    :}
+  | edge ID:origem line ID:destino 
+    {: 
+        if (!tipoDefinido || grafo == null) {
+            parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
+        } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
+            parser.defineError("Vértice inexistente usado na aresta: " + origem + " -- " + destino);
+        } else if (grafo.hasEdge(origem, destino)) {
+            parser.defineError("Aresta duplicada: " + origem + " -- " + destino);
+        } else {
+            grafo.addEdge(origem, destino);
+        }
+    :}
+  | error 
+    {: 
+        parser.defineError("Elemento mal formado na definição de vértices/arestas.");
+    :}
+  ;
 
 F ::= print adjacency 
-    {: deveImprimir = true; :}
+    {: 
+        deveImprimir = true; 
+    :}
   | ;
