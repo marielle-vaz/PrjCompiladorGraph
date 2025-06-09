@@ -1,9 +1,11 @@
 GRAPH:
-    directed
+    undirected
     vertex A
     vertex B
     vertex C
-    edge A -> B
-    edge B -> C
-    edge C -> A
+    vertex D
+    edge A -- B
+    edge B -- C
+    edge C -- D
+    edge D -- A
     print adjacency 

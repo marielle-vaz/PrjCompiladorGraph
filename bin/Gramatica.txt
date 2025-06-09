@@ -1,0 +1,8 @@
+Inicio -> GRAPH: TipoGrafo
+TipoGrafo -> directed A | undirected B
+A -> vertex ID A | C
+C -> edge ID -> ID C | A | D
+B -> vertex ID B | E
+E -> edge ID -- ID E | B | D
+D -> print adjacency | ε
+ID -> lexema

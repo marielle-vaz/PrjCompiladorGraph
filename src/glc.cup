@@ -27,7 +27,7 @@ parser code {:
 :};
 
 terminal GRAPH, colon, line, arrow, directed, undirected, print, vertex, edge;
-terminal String ID, adjacency;
+terminal String ID, adjacency, invalido;
 
 non terminal Inicio, TipoGrafo, ListaElementos, Elemento, Impressao;
 
@@ -59,7 +59,11 @@ TipoGrafo ::= directed
 ListaElementos ::= ListaElementos Elemento
                  | Elemento ;
 
-Elemento ::= vertex ID:id 
+Elemento ::= ID:id
+  {:
+    parser.defineError(idleft, idright, "Comando desconhecido ou incompleto: " + id);
+  :}
+  | vertex ID:id 
     {: 
         if (!tipoDefinido || grafo == null) {
             parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
@@ -73,30 +77,44 @@ Elemento ::= vertex ID:id
     {: 
         if (!tipoDefinido || grafo == null) {
             parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
-        } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            parser.defineError(origemleft, destinoright, "Vértice inexistente usado na aresta: " + origem + " -> " + destino);
+        } else if (!grafo.isDirected()) {
+            parser.defineError(origemleft, destinoright, "Tipo de aresta inválido para o grafo atual: uso de '->' em grafo não direcionado.");
+        } else if (!grafo.hasVertex(origem)) {
+            parser.defineError(origemleft, origemright, "Vértice de origem não declarado: " + origem);
+        } else if (!grafo.hasVertex(destino)) {
+            parser.defineError(destinoleft, destinoright, "Vértice de destino não declarado: " + destino);
         } else if (grafo.hasEdge(origem, destino)) {
             parser.defineError(origemleft, destinoright, "Aresta duplicada: " + origem + " -> " + destino);
         } else {
             grafo.addEdge(origem, destino);
         }
     :}
+
   | edge ID:origem line ID:destino 
     {: 
         if (!tipoDefinido || grafo == null) {
             parser.defineError("Tipo de grafo não definido antes da criação de arestas.");
-        } else if (!grafo.hasVertex(origem) || !grafo.hasVertex(destino)) {
-            parser.defineError(origemleft, destinoright, "Vértice inexistente usado na aresta: " + origem + " -- " + destino);
+        } else if (grafo.isDirected()) {
+            parser.defineError(origemleft, destinoright, "Tipo de aresta inválido para o grafo atual: uso de '--' em grafo direcionado.");
+        } else if (!grafo.hasVertex(origem)) {
+            parser.defineError(origemleft, origemright, "Vértice de origem não declarado: " + origem);
+        } else if (!grafo.hasVertex(destino)) {
+            parser.defineError(destinoleft, destinoright, "Vértice de destino não declarado: " + destino);
         } else if (grafo.hasEdge(origem, destino)) {
             parser.defineError(origemleft, destinoright, "Aresta duplicada: " + origem + " -- " + destino);
         } else {
             grafo.addEdge(origem, destino);
         }
     :}
-  | error 
-    {: 
-        parser.defineError("Elemento mal formado na definição de vértices/arestas.");
-    :}
+
+    | invalido:inv
+      {:
+        parser.defineError("Comando desconhecido: " + inv);
+      :}
+    | error 
+      {: 
+        parser.defineError("Sintaxe inválida!");
+      :}
   ;
 
 Impressao ::= print adjacency 

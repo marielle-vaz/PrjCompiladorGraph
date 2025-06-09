@@ -68,6 +68,6 @@ id = {letra}({letra}|{numero})*
 "--"            { return newSymbol(Sym.line); }
 {id}            { return newSymbol(Sym.ID, yytext()); }
 {espaco}        { /* Ignora espaços, quebras de linha e tabulações */ }
-.               { this.defineError(yyline, yycolumn, "Sintaxe inválida! Código desconhecido: " + yytext());
-                  return newSymbol(Sym.EOF);} 
+.               { this.defineError(yyline, yycolumn, "Comando desconhecido: " + yytext());
+                  return newSymbol(Sym.invalido);} 
 <<EOF>>         { return newSymbol(Sym.EOF); }

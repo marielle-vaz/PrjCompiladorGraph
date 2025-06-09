@@ -27,7 +27,7 @@ public class Graph {
             adjList.get(v2).add(v1);
         }
     }
-
+    
     public boolean hasVertex(String vertex) {
         return adjList.containsKey(vertex);
     }
@@ -42,30 +42,32 @@ public class Graph {
         }
     }
 
-
     public void saveAdjacencyMatrixToFile() {
         String filename = isDirected ? "matrizDigraph.txt" : "matrizGraph.txt";
 
         List<String> vertices = new ArrayList<>(adjList.keySet());
         Collections.sort(vertices);
 
+        int maxLength = vertices.stream().mapToInt(String::length).max().orElse(0);
+        int width = maxLength + 2;
+
         try (FileWriter writer = new FileWriter("src/matriz/" + filename)) {
-            writer.write("  ");
+            writer.write(String.format("%-" + width + "s", " "));
             for (String v : vertices) {
-                writer.write(v + " ");
+                writer.write(String.format("%-" + width + "s", v));
             }
             writer.write("\n");
 
             for (String from : vertices) {
-                writer.write(from + " ");
+                writer.write(String.format("%-" + width + "s", from));
                 for (String to : vertices) {
                     int val = adjList.get(from).contains(to) ? 1 : 0;
-                    writer.write(val + " ");
+                    writer.write(String.format("%-" + width + "d", val));
                 }
                 writer.write("\n");
             }
 
-            System.out.println("Matriz de adjacência salva em: " + filename);
+            System.out.println("Matriz de adjacência salva em: src/matriz/" + filename);
         } catch (IOException e) {
             System.err.println("Erro ao salvar o arquivo: " + e.getMessage());
         }
